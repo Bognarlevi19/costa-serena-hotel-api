@@ -11,11 +11,12 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-costa_serena_grand_hotel_API-be5c6d0b-0258-4a05-9ef4-c6f2850426e4")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("costa_serena_grand_hotel_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9db284aa11c86c4185940722316008401f58d9b")]
 [assembly: System.Reflection.AssemblyProductAttribute("costa_serena_grand_hotel_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("costa_serena_grand_hotel_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

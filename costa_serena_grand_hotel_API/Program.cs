@@ -5,6 +5,7 @@ using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace costa_serena_grand_hotel_API
@@ -26,6 +27,23 @@ namespace costa_serena_grand_hotel_API
 
             builder.Services.AddDbContext<HotelDbContext>(options =>
                options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));
+           
+            
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                 options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+
+            {
+
+                options.SignIn.RequireConfirmedAccount = false;
+
+            })
+
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+            builder.Services.AddRazorPages(); // Identity UI-hoz kell
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -36,12 +54,12 @@ namespace costa_serena_grand_hotel_API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
             app.MapControllers();
-
+            app.MapRazorPages();
             app.Run();
         }
     }
