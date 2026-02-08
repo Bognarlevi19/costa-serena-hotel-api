@@ -1,0 +1,350 @@
+[
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.FoglalasController",
+    "Method": "GetFoglalasok",
+    "RelativePath": "api/Foglalas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[costa_serena_grand_hotel_API.Models.Foglalas, costa_serena_grand_hotel_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.FoglalasController",
+    "Method": "PostFoglalas",
+    "RelativePath": "api/Foglalas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "foglalas",
+        "Type": "costa_serena_grand_hotel_API.Models.Foglalas",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Foglalas",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.FoglalasController",
+    "Method": "GetFoglalas",
+    "RelativePath": "api/Foglalas/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Foglalas",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.FoglalasController",
+    "Method": "PutFoglalas",
+    "RelativePath": "api/Foglalas/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "foglalas",
+        "Type": "costa_serena_grand_hotel_API.Models.Foglalas",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.FoglalasController",
+    "Method": "DeleteFoglalas",
+    "RelativePath": "api/Foglalas/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.SzobaController",
+    "Method": "GetSzobak",
+    "RelativePath": "api/Szoba",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[costa_serena_grand_hotel_API.Models.Szoba, costa_serena_grand_hotel_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.SzobaController",
+    "Method": "PostSzoba",
+    "RelativePath": "api/Szoba",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "szoba",
+        "Type": "costa_serena_grand_hotel_API.Models.Szoba",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Szoba",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.SzobaController",
+    "Method": "GetSzoba",
+    "RelativePath": "api/Szoba/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Szoba",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.SzobaController",
+    "Method": "PutSzoba",
+    "RelativePath": "api/Szoba/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "szoba",
+        "Type": "costa_serena_grand_hotel_API.Models.Szoba",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.SzobaController",
+    "Method": "DeleteSzoba",
+    "RelativePath": "api/Szoba/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.VendegController",
+    "Method": "GetVendegek",
+    "RelativePath": "api/Vendeg",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[costa_serena_grand_hotel_API.Models.Vendeg, costa_serena_grand_hotel_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.VendegController",
+    "Method": "PostVendeg",
+    "RelativePath": "api/Vendeg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vendeg",
+        "Type": "costa_serena_grand_hotel_API.Models.Vendeg",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Vendeg",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.VendegController",
+    "Method": "GetVendeg",
+    "RelativePath": "api/Vendeg/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "costa_serena_grand_hotel_API.Models.Vendeg",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.VendegController",
+    "Method": "PutVendeg",
+    "RelativePath": "api/Vendeg/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "vendeg",
+        "Type": "costa_serena_grand_hotel_API.Models.Vendeg",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.VendegController",
+    "Method": "DeleteVendeg",
+    "RelativePath": "api/Vendeg/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "costa_serena_grand_hotel_API.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[costa_serena_grand_hotel_API.WeatherForecast, costa_serena_grand_hotel_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]
