@@ -25,7 +25,20 @@ namespace costa_serena_grand_hotel_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendeg>>> GetVendegek()
         {
-            return await _context.Vendegek.ToListAsync();
+            return Ok(await _context.Vendegek
+                .Select(v => new
+                {
+                    v.Id,
+                    v.SzemelyiIgazolvanySzam,
+                    v.Nev,
+                    v.IranyitoSzam,
+                    v.Varos,
+                    v.Utca,
+                    v.Hazszam,
+                    FoglalasokSzama = v.Foglalasok.Count,
+                    Foglalasok = v.Foglalasok.ToArray()
+                })
+                .ToListAsync());
         }
 
         // GET: api/Vendeg/5

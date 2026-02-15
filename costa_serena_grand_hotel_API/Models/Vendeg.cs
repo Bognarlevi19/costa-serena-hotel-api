@@ -35,7 +35,7 @@ namespace costa_serena_grand_hotel_API.Models
         [StringLength(10, ErrorMessage = "A házszám legfeljebb 10 karakter lehet.")]
         public string Hazszam { get; set; } = String.Empty;
 
-        public bool Fizetett { get; set; }
+
 
         // 1 vendég -> több foglalás
         public ICollection<Foglalas> Foglalasok { get; set; } = new List<Foglalas>();

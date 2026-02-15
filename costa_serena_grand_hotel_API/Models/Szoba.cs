@@ -10,13 +10,20 @@ namespace costa_serena_grand_hotel_API.Models
 
         [Required(ErrorMessage = "A szobaszám megadása kötelező.")]
         [StringLength(5, ErrorMessage = "A szobaszám legfeljebb 5 karakter hosszú lehet.")]
-        public string Szam { get; set; }
+        public string Szam { get; set; }= String.Empty;
+
+
         [Required(ErrorMessage = "Az emelet megadása kötelező.")]
         [Range(0, 5, ErrorMessage = "Az emelet értéke 0 és 5 között lehet.")]
         public int Emelet { get; set; }
+
+
         [Required(ErrorMessage = "Az alapterület megadása kötelező.")]
         [Range(1, 1000, ErrorMessage = "Az alapterület 1 és 1000 m² között lehet.")]
         public double Alapterulet { get; set; }
+
+        [Required(ErrorMessage = "Az ár megadása kötelező.")]
+        public int Ar { get; set; } 
 
         public ICollection<Foglalas> Foglalasok { get; set; } = new List<Foglalas>();
 
