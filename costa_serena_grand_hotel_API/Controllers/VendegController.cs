@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using costa_serena_grand_hotel_API.Data;
+using costa_serena_grand_hotel_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using costa_serena_grand_hotel_API.Data;
-using costa_serena_grand_hotel_API.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User,Admin")]
     public class VendegController : ControllerBase
     {
         private readonly HotelDbContext _context;
@@ -58,6 +60,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // PUT: api/Vendeg/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutVendeg(int id, Vendeg vendeg)
         {
             if (id != vendeg.Id)
@@ -89,6 +92,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // POST: api/Vendeg
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Vendeg>> PostVendeg(Vendeg vendeg)
         {
             _context.Vendegek.Add(vendeg);
@@ -99,6 +103,7 @@ namespace costa_serena_grand_hotel_API.Controllers
 
         // DELETE: api/Vendeg/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteVendeg(int id)
         {
             var vendeg = await _context.Vendegek.FindAsync(id);

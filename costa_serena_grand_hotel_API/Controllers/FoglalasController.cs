@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using costa_serena_grand_hotel_API.Data;
+using costa_serena_grand_hotel_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using costa_serena_grand_hotel_API.Data;
-using costa_serena_grand_hotel_API.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User,Admin")]
     public class FoglalasController : ControllerBase
     {
         private readonly HotelDbContext _context;
@@ -45,6 +47,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // PUT: api/Foglalas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutFoglalas(int id, Foglalas foglalas)
         {
             if (id != foglalas.Id)
@@ -76,6 +79,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // POST: api/Foglalas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Foglalas>> PostFoglalas(Foglalas foglalas)
         {
             _context.Foglalasok.Add(foglalas);
@@ -86,6 +90,7 @@ namespace costa_serena_grand_hotel_API.Controllers
 
         // DELETE: api/Foglalas/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFoglalas(int id)
         {
             var foglalas = await _context.Foglalasok.FindAsync(id);

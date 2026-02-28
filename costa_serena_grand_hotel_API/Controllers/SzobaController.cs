@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using costa_serena_grand_hotel_API.Data;
+using costa_serena_grand_hotel_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using costa_serena_grand_hotel_API.Data;
-using costa_serena_grand_hotel_API.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User,Admin")]
     public class SzobaController : ControllerBase
     {
         private readonly HotelDbContext _context;
@@ -58,6 +60,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // PUT: api/Szobas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutSzoba(int id, Szoba szoba)
         {
             if (id != szoba.Id)
@@ -89,6 +92,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         // POST: api/Szobas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Szoba>> PostSzoba(Szoba szoba)
         {
             _context.Szobak.Add(szoba);
@@ -99,6 +103,7 @@ namespace costa_serena_grand_hotel_API.Controllers
 
         // DELETE: api/Szobas/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSzoba(int id)
         {
             var szoba = await _context.Szobak.FindAsync(id);
