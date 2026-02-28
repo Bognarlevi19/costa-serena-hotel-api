@@ -36,7 +36,6 @@ namespace costa_serena_grand_hotel_API.Models
         public string Hazszam { get; set; } = String.Empty;
 
 
-
         // 1 vendég -> több foglalás
         public ICollection<Foglalas> Foglalasok { get; set; } = new List<Foglalas>();
     }

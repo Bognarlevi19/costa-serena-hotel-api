@@ -1,6 +1,8 @@
 ﻿bin/
 obj/
+.vs
 .vs/
+**/.vs/
 *.user
 *.suo
 *.db

@@ -25,7 +25,20 @@ namespace costa_serena_grand_hotel_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Szoba>>> GetSzobak()
         {
-            return await _context.Szobak.ToListAsync();
+
+
+            return Ok(await _context.Szobak
+               .Select(sz => new
+               {
+                   sz.Id,
+                   sz.Szam,
+                   sz.Emelet,
+                   sz.Alapterulet,
+                   sz.Ar,
+                   Foglalva_darabszam = sz.Foglalasok.Count,
+                   Foglalasok = sz.Foglalasok.ToArray()
+               })
+               .ToListAsync());
         }
 
         // GET: api/Szobas/5

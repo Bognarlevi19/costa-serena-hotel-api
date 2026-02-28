@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using costa_serena_grand_hotel_API.Data;
 
@@ -10,9 +11,11 @@ using costa_serena_grand_hotel_API.Data;
 namespace costa_serena_grand_hotel_API.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260215153102_VegOsszegFoglalasbolVendegbe")]
+    partial class VegOsszegFoglalasbolVendegbe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,6 +110,9 @@ namespace costa_serena_grand_hotel_API.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
+
+                    b.Property<int>("VegOsszeg")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
