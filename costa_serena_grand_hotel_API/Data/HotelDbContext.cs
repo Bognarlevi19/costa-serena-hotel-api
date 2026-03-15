@@ -1,16 +1,19 @@
 ﻿using costa_serena_grand_hotel_API.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace costa_serena_grand_hotel_API.Data
 {
-    public class HotelDbContext:DbContext
+    public class HotelDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<Szoba> Szobak { get; set; } = null!;   
-        public DbSet<Vendeg> Vendegek { get; set; } = null!;
-        public DbSet<Foglalas> Foglalasok { get; set; } = null!;
-
-
-        public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
+        public HotelDbContext(DbContextOptions<HotelDbContext> options)
+            : base(options)
         {
         }
+
+        public DbSet<Vendeg> Vendegek { get; set; }
+        public DbSet<Szoba> Szobak { get; set; }
+        public DbSet<Foglalas> Foglalasok { get; set; }
+        public DbSet<Ertekeles> Ertekelesek { get; set; }
     }
 }

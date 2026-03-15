@@ -92,13 +92,13 @@ namespace costa_serena_grand_hotel_API.Controllers
         // POST: api/Vendeg
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous] // hogy regisztraciokor ne csak az adminok tudjanak vendeg rekordot letrehozni
         public async Task<ActionResult<Vendeg>> PostVendeg(Vendeg vendeg)
         {
             _context.Vendegek.Add(vendeg);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendeg", new { id = vendeg.Id }, vendeg);
+            return CreatedAtAction(nameof(GetVendeg), new { id = vendeg.Id }, vendeg);
         }
 
         // DELETE: api/Vendeg/5

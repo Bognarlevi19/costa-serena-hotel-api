@@ -50,17 +50,12 @@ namespace costa_serena_grand_hotel_API
             builder.Services.AddDbContext<HotelDbContext>(options =>
                options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));
 
-
-            // Identity DB (SQLite)
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
-
             // Identity
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<HotelDbContext>()
             .AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication(options =>

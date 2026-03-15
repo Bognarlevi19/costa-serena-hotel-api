@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using costa_serena_grand_hotel_API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using costa_serena_grand_hotel_API.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
@@ -12,25 +15,57 @@ namespace costa_serena_grand_hotel_API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly HotelDbContext _hotelContext;
         private readonly UserManager<IdentityUser> _users;
         private readonly IConfiguration _cfg;
-        public AuthController(UserManager<IdentityUser> users, IConfiguration cfg)
+        public AuthController(UserManager<IdentityUser> users,IConfiguration cfg,HotelDbContext hotelContext)
         {
             _users = users;
             _cfg = cfg;
+            _hotelContext = hotelContext;
         }
-        public record RegisterRequest(string Email, string Password);
+        public record RegisterRequest(
+            string Email,
+            string Password,
+            string Nev,
+            string SzemelyiIgazolvanySzam,
+            int IranyitoSzam,
+            string Varos,
+            string Utca,
+            string Hazszam
+        );
 
 
         public record LoginRequest(string Email, string Password);
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest req)
         {
-            var user = new IdentityUser { UserName = req.Email, Email = req.Email };
+            var user = new IdentityUser
+            {
+                UserName = req.Email,
+                Email = req.Email
+            };
+
             var result = await _users.CreateAsync(user, req.Password);
+
             if (!result.Succeeded)
                 return BadRequest(result.Errors.Select(e => e.Description));
-            return Ok();
+
+            var ujVendeg = new Vendeg
+            {
+                Nev = req.Nev,
+                SzemelyiIgazolvanySzam = req.SzemelyiIgazolvanySzam,
+                IranyitoSzam = req.IranyitoSzam,
+                Varos = req.Varos,
+                Utca = req.Utca,
+                Hazszam = req.Hazszam,
+                IdentityUserId = user.Id
+            };
+
+            _hotelContext.Vendegek.Add(ujVendeg);
+            await _hotelContext.SaveChangesAsync();
+
+            return Ok(new { userId = user.Id });
         }
 
 

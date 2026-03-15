@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace costa_serena_grand_hotel_API.Models
@@ -38,5 +39,12 @@ namespace costa_serena_grand_hotel_API.Models
 
         // 1 vendég -> több foglalás
         public ICollection<Foglalas> Foglalasok { get; set; } = new List<Foglalas>();
+
+        // 1 vendég --> 1 user (Identity)
+        public string? IdentityUserId { get; set; }
+
+
+        [ForeignKey(nameof(IdentityUserId))]
+        public IdentityUser? IdentityUser { get; set; }
     }
 }
