@@ -1,7 +1,6 @@
 ﻿using costa_serena_grand_hotel_API.Data;
 using costa_serena_grand_hotel_API.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,10 +47,15 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (user == null)
                 return Unauthorized("A bejelentkezett felhasználó nem található.");
 
+            var vendeg = await _context.Vendegek
+                .FirstOrDefaultAsync(v => v.IdentityUserId == user.Id);
+
+            var nev = vendeg?.Nev?.Trim();
+
             var ertekeles = new Ertekeles
             {
                 Email = user.Email ?? string.Empty,
-                Nev = req.Nev?.Trim() ?? string.Empty,
+                Nev = string.IsNullOrWhiteSpace(nev) ? "Vendég" : nev,
                 Rating = req.Rating,
                 Comment = req.Comment.Trim(),
                 CreatedAt = DateTime.Now,
@@ -63,8 +67,8 @@ namespace costa_serena_grand_hotel_API.Controllers
 
             return Ok(ertekeles);
         }
+
         public record CreateErtekelesRequest(
-            string? Nev,
             int Rating,
             string Comment
         );
