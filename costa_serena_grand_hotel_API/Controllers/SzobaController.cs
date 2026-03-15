@@ -1,19 +1,13 @@
 ﻿using costa_serena_grand_hotel_API.Data;
 using costa_serena_grand_hotel_API.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User,Admin")]
     public class SzobaController : ControllerBase
     {
         private readonly HotelDbContext _context;
@@ -23,50 +17,84 @@ namespace costa_serena_grand_hotel_API.Controllers
             _context = context;
         }
 
-        // GET: api/Szobas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Szoba>>> GetSzobak()
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<object>>> GetSzobak()
         {
+            var szobak = await _context.Szobak
+                .Include(s => s.SzobaKategoria)
+                .Include(s => s.Kepek)
+                .Select(sz => new
+                {
+                    sz.Id,
+                    sz.Nev,
+                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : "",
+                    sz.RovidLeiras,
+                    sz.Ar,
+                    sz.Ferohely,
+                    sz.Alapterulet,
+                    FoKepUrl = sz.Kepek
+                        .OrderByDescending(k => k.FoKep)
+                        .ThenBy(k => k.Sorrend)
+                        .Select(k => k.KepUrl)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
 
-
-            return Ok(await _context.Szobak
-               .Select(sz => new
-               {
-                   sz.Id,
-                   sz.Szam,
-                   sz.Emelet,
-                   sz.Alapterulet,
-                   sz.Ar,
-                   Foglalva_darabszam = sz.Foglalasok.Count,
-                   Foglalasok = sz.Foglalasok.ToArray()
-               })
-               .ToListAsync());
+            return Ok(szobak);
         }
 
-        // GET: api/Szobas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Szoba>> GetSzoba(int id)
+        [AllowAnonymous]
+        public async Task<ActionResult<object>> GetSzoba(int id)
         {
-            var szoba = await _context.Szobak.FindAsync(id);
+            var szoba = await _context.Szobak
+                .Include(s => s.SzobaKategoria)
+                .Include(s => s.Kepek)
+                .Where(s => s.Id == id)
+                .Select(sz => new
+                {
+                    sz.Id,
+                    sz.Szam,
+                    sz.Emelet,
+                    sz.Nev,
+                    sz.RovidLeiras,
+                    sz.Leiras,
+                    sz.Ar,
+                    sz.Ferohely,
+                    sz.Alapterulet,
+                    sz.SzobaKategoriaId,
+                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : "",
+                    Kepek = sz.Kepek
+                        .OrderByDescending(k => k.FoKep)
+                        .ThenBy(k => k.Sorrend)
+                        .Select(k => k.KepUrl)
+                        .ToList()
+                })
+                .FirstOrDefaultAsync();
 
             if (szoba == null)
-            {
                 return NotFound();
-            }
 
-            return szoba;
+            return Ok(szoba);
         }
 
-        // PUT: api/Szobas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Szoba>> PostSzoba(Szoba szoba)
+        {
+            _context.Szobak.Add(szoba);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetSzoba), new { id = szoba.Id }, szoba);
+        }
+
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutSzoba(int id, Szoba szoba)
         {
             if (id != szoba.Id)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(szoba).State = EntityState.Modified;
 
@@ -76,51 +104,27 @@ namespace costa_serena_grand_hotel_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SzobaExists(id))
-                {
+                if (!_context.Szobak.Any(e => e.Id == id))
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return NoContent();
         }
 
-        // POST: api/Szobas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Szoba>> PostSzoba(Szoba szoba)
-        {
-            _context.Szobak.Add(szoba);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSzoba", new { id = szoba.Id }, szoba);
-        }
-
-        // DELETE: api/Szobas/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSzoba(int id)
         {
             var szoba = await _context.Szobak.FindAsync(id);
             if (szoba == null)
-            {
                 return NotFound();
-            }
 
             _context.Szobak.Remove(szoba);
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool SzobaExists(int id)
-        {
-            return _context.Szobak.Any(e => e.Id == id);
         }
     }
 }
