@@ -41,8 +41,6 @@ namespace costa_serena_grand_hotel_API.Models
 
         public SzobaKategoria? SzobaKategoria { get; set; }
 
-        public ICollection<SzobaKep> Kepek { get; set; } = new List<SzobaKep>();
-
         public ICollection<Foglalas> Foglalasok { get; set; } = new List<Foglalas>();
     }
 }

@@ -23,7 +23,6 @@ namespace costa_serena_grand_hotel_API.Controllers
         {
             var szobak = await _context.Szobak
                 .Include(s => s.SzobaKategoria)
-                .Include(s => s.Kepek)
                 .Select(sz => new
                 {
                     sz.Id,
@@ -32,12 +31,7 @@ namespace costa_serena_grand_hotel_API.Controllers
                     sz.RovidLeiras,
                     sz.Ar,
                     sz.Ferohely,
-                    sz.Alapterulet,
-                    FoKepUrl = sz.Kepek
-                        .OrderByDescending(k => k.FoKep)
-                        .ThenBy(k => k.Sorrend)
-                        .Select(k => k.KepUrl)
-                        .FirstOrDefault()
+                    sz.Alapterulet
                 })
                 .ToListAsync();
 
@@ -50,7 +44,6 @@ namespace costa_serena_grand_hotel_API.Controllers
         {
             var szoba = await _context.Szobak
                 .Include(s => s.SzobaKategoria)
-                .Include(s => s.Kepek)
                 .Where(s => s.Id == id)
                 .Select(sz => new
                 {
@@ -64,12 +57,7 @@ namespace costa_serena_grand_hotel_API.Controllers
                     sz.Ferohely,
                     sz.Alapterulet,
                     sz.SzobaKategoriaId,
-                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : "",
-                    Kepek = sz.Kepek
-                        .OrderByDescending(k => k.FoKep)
-                        .ThenBy(k => k.Sorrend)
-                        .Select(k => k.KepUrl)
-                        .ToList()
+                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : ""
                 })
                 .FirstOrDefaultAsync();
 

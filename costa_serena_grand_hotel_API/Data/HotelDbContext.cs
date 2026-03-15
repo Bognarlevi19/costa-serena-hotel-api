@@ -15,7 +15,6 @@ namespace costa_serena_grand_hotel_API.Data
         public DbSet<Vendeg> Vendegek { get; set; }
         public DbSet<Szoba> Szobak { get; set; }
         public DbSet<SzobaKategoria> SzobaKategoriak { get; set; }
-        public DbSet<SzobaKep> SzobaKepek { get; set; }
         public DbSet<Foglalas> Foglalasok { get; set; }
         public DbSet<Ertekeles> Ertekelesek { get; set; }
 
@@ -28,12 +27,6 @@ namespace costa_serena_grand_hotel_API.Data
                 .WithMany(k => k.Szobak)
                 .HasForeignKey(s => s.SzobaKategoriaId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SzobaKep>()
-                .HasOne(k => k.Szoba)
-                .WithMany(s => s.Kepek)
-                .HasForeignKey(k => k.SzobaId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
