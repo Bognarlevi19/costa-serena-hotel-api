@@ -1,13 +1,9 @@
 ﻿using costa_serena_grand_hotel_API.Data;
 using costa_serena_grand_hotel_API.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace costa_serena_grand_hotel_API.Controllers
 {
@@ -23,7 +19,6 @@ namespace costa_serena_grand_hotel_API.Controllers
             _context = context;
         }
 
-        // GET: api/Vendeg
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendeg>>> GetVendegek()
         {
@@ -37,36 +32,60 @@ namespace costa_serena_grand_hotel_API.Controllers
                     v.Varos,
                     v.Utca,
                     v.Hazszam,
-                    FoglalasokSzama = v.Foglalasok.Count,
-                    Foglalasok = v.Foglalasok.ToArray()
+                    v.IdentityUserId,
+                    FoglalasokSzama = v.Foglalasok.Count
                 })
                 .ToListAsync());
         }
 
-        // GET: api/Vendeg/5
+        [HttpGet("me")]
+        public async Task<ActionResult<object>> GetCurrentVendeg()
+        {
+            var identityUserId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue("sub");
+
+            if (string.IsNullOrWhiteSpace(identityUserId))
+                return Unauthorized();
+
+            var vendeg = await _context.Vendegek
+                .Where(v => v.IdentityUserId == identityUserId)
+                .Select(v => new
+                {
+                    v.Id,
+                    v.SzemelyiIgazolvanySzam,
+                    v.Nev,
+                    v.IranyitoSzam,
+                    v.Varos,
+                    v.Utca,
+                    v.Hazszam,
+                    v.IdentityUserId
+                })
+                .FirstOrDefaultAsync();
+
+            if (vendeg == null)
+                return NotFound();
+
+            return Ok(vendeg);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendeg>> GetVendeg(int id)
         {
             var vendeg = await _context.Vendegek.FindAsync(id);
 
             if (vendeg == null)
-            {
                 return NotFound();
-            }
 
             return vendeg;
         }
 
-        // PUT: api/Vendeg/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutVendeg(int id, Vendeg vendeg)
         {
             if (id != vendeg.Id)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(vendeg).State = EntityState.Modified;
 
@@ -77,22 +96,16 @@ namespace costa_serena_grand_hotel_API.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!VendegExists(id))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: api/Vendeg
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [AllowAnonymous] // hogy regisztraciokor ne csak az adminok tudjanak vendeg rekordot letrehozni
+        [AllowAnonymous]
         public async Task<ActionResult<Vendeg>> PostVendeg(Vendeg vendeg)
         {
             _context.Vendegek.Add(vendeg);
@@ -101,16 +114,13 @@ namespace costa_serena_grand_hotel_API.Controllers
             return CreatedAtAction(nameof(GetVendeg), new { id = vendeg.Id }, vendeg);
         }
 
-        // DELETE: api/Vendeg/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteVendeg(int id)
         {
             var vendeg = await _context.Vendegek.FindAsync(id);
             if (vendeg == null)
-            {
                 return NotFound();
-            }
 
             _context.Vendegek.Remove(vendeg);
             await _context.SaveChangesAsync();

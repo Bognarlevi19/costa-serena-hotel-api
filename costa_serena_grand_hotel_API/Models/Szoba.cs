@@ -36,6 +36,9 @@ namespace costa_serena_grand_hotel_API.Models
         [Range(1, 20)]
         public int Ferohely { get; set; }
 
+        [Column(TypeName = "json")]
+        public string? KepekJson { get; set; }
+
         [ForeignKey(nameof(SzobaKategoria))]
         public int SzobaKategoriaId { get; set; }
 

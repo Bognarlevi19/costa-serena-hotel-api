@@ -26,12 +26,44 @@ namespace costa_serena_grand_hotel_API.Controllers
                 .Select(sz => new
                 {
                     sz.Id,
+                    sz.Szam,
+                    sz.Emelet,
                     sz.Nev,
-                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : "",
                     sz.RovidLeiras,
+                    sz.Leiras,
                     sz.Ar,
                     sz.Ferohely,
-                    sz.Alapterulet
+                    sz.Alapterulet,
+                    sz.KepekJson,
+                    sz.SzobaKategoriaId,
+                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : ""
+                })
+                .ToListAsync();
+
+            return Ok(szobak);
+        }
+
+        [HttpGet("kategoria/{kategoriaId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<object>>> GetSzobakKategoriaSzerint(int kategoriaId)
+        {
+            var szobak = await _context.Szobak
+                .Include(s => s.SzobaKategoria)
+                .Where(s => s.SzobaKategoriaId == kategoriaId)
+                .Select(sz => new
+                {
+                    sz.Id,
+                    sz.Szam,
+                    sz.Emelet,
+                    sz.Nev,
+                    sz.RovidLeiras,
+                    sz.Leiras,
+                    sz.Ar,
+                    sz.Ferohely,
+                    sz.Alapterulet,
+                    sz.KepekJson,
+                    sz.SzobaKategoriaId,
+                    KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : ""
                 })
                 .ToListAsync();
 
@@ -56,6 +88,7 @@ namespace costa_serena_grand_hotel_API.Controllers
                     sz.Ar,
                     sz.Ferohely,
                     sz.Alapterulet,
+                    sz.KepekJson,
                     sz.SzobaKategoriaId,
                     KategoriaNev = sz.SzobaKategoria != null ? sz.SzobaKategoria.Nev : ""
                 })

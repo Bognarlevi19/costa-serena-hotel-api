@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using costa_serena_grand_hotel_API.Data;
 
@@ -10,9 +11,11 @@ using costa_serena_grand_hotel_API.Data;
 namespace costa_serena_grand_hotel_API.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260316113751_SulibaInit")]
+    partial class SulibaInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,9 +299,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                     b.Property<int>("Ferohely")
                         .HasColumnType("int");
 
-                    b.Property<string>("KepekJson")
-                        .HasColumnType("json");
-
                     b.Property<string>("Leiras")
                         .HasColumnType("longtext");
 
@@ -331,12 +331,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<int>("Darab")
-                        .HasColumnType("int");
-
-                    b.Property<string>("KepekJson")
-                        .HasColumnType("json");
 
                     b.Property<string>("Leiras")
                         .HasMaxLength(300)
