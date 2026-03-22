@@ -68,6 +68,32 @@ namespace costa_serena_grand_hotel_API.Controllers
 
             return Ok(vendeg);
         }
+        [HttpPut("me")]
+        public async Task<IActionResult> PutCurrentVendeg(Vendeg vendeg)
+        {
+            var identityUserId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue("sub");
+
+            if (string.IsNullOrWhiteSpace(identityUserId))
+                return Unauthorized();
+
+            var meglevoVendeg = await _context.Vendegek
+                .FirstOrDefaultAsync(v => v.IdentityUserId == identityUserId);
+
+            if (meglevoVendeg == null)
+                return NotFound();
+
+            meglevoVendeg.Nev = vendeg.Nev;
+            meglevoVendeg.SzemelyiIgazolvanySzam = vendeg.SzemelyiIgazolvanySzam;
+            meglevoVendeg.IranyitoSzam = vendeg.IranyitoSzam;
+            meglevoVendeg.Varos = vendeg.Varos;
+            meglevoVendeg.Utca = vendeg.Utca;
+            meglevoVendeg.Hazszam = vendeg.Hazszam;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendeg>> GetVendeg(int id)
