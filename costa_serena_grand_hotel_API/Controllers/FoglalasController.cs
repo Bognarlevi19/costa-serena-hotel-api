@@ -25,11 +25,58 @@ namespace costa_serena_grand_hotel_API.Controllers
             public DateTime Mettol { get; set; }
             public DateTime Meddig { get; set; }
         }
+        public class SajatFoglalasDto
+        {
+            public int Id { get; set; }
+            public int SzobaId { get; set; }
+            public string SzobaSzam { get; set; }
+            public string SzobaNev { get; set; } = string.Empty;
+            public string? KategoriaNev { get; set; }
+            public DateTime Mettol { get; set; }
+            public DateTime Meddig { get; set; }
+            public bool Fizetett { get; set; }
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Foglalas>>> GetFoglalasok()
         {
             return await _context.Foglalasok.ToListAsync();
+        }
+        [HttpGet("sajat")]
+        public async Task<ActionResult<IEnumerable<SajatFoglalasDto>>> GetSajatFoglalasok()
+        {
+            var identityUserId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue("sub");
+
+            if (string.IsNullOrWhiteSpace(identityUserId))
+                return Unauthorized();
+
+            var vendeg = await _context.Vendegek
+                .FirstOrDefaultAsync(v => v.IdentityUserId == identityUserId);
+
+            if (vendeg == null)
+                return BadRequest("A bejelentkezett felhasználóhoz nem tartozik vendég rekord.");
+
+            var foglalasok = await _context.Foglalasok
+                .Where(f => f.VendegId == vendeg.Id)
+                .Include(f => f.Szoba)
+                .ThenInclude(sz => sz.SzobaKategoria)
+                .OrderByDescending(f => f.Mettol)
+                .Select(f => new SajatFoglalasDto
+                {
+                    Id = f.Id,
+                    SzobaId = f.SzobaId,
+                    SzobaSzam = f.Szoba.Szam,
+                    SzobaNev = f.Szoba.Nev,
+                    KategoriaNev = f.Szoba.SzobaKategoria != null ? f.Szoba.SzobaKategoria.Nev : null,
+                    Mettol = f.Mettol,
+                    Meddig = f.Meddig,
+                    Fizetett = f.Fizetett
+                })
+                .ToListAsync();
+
+            return Ok(foglalasok);
         }
 
         [HttpGet("{id}")]

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using costa_serena_grand_hotel_API.Data;
 
@@ -10,9 +11,11 @@ using costa_serena_grand_hotel_API.Data;
 namespace costa_serena_grand_hotel_API.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260323092951_InitSUliban")]
+    partial class InitSUliban
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,89 +281,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                     b.ToTable("foglalas");
                 });
 
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Rendeles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Fizetett")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Hazszam")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<int>("IranyitoSzam")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Letrehozva")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Nev")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("varchar(120)");
-
-                    b.Property<string>("SzemelyiIgazolvanySzam")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("Utca")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Varos")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<int>("Vegosszeg")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VendegId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VendegId");
-
-                    b.ToTable("rendeles");
-                });
-
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.RendelesTetel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Egysegar")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Mennyiseg")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Osszeg")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RendelesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TermekId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RendelesId");
-
-                    b.HasIndex("TermekId");
-
-                    b.ToTable("rendeles_tetel");
-                });
-
             modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Szoba", b =>
                 {
                     b.Property<int>("Id")
@@ -433,40 +353,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("szoba_kategoria");
-                });
-
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Termek", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Aktiv")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("Ar")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Kategoria")
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.Property<string>("KepUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Leiras")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("Nev")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("varchar(120)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("termek");
                 });
 
             modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Vendeg", b =>
@@ -592,36 +478,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                     b.Navigation("Vendeg");
                 });
 
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Rendeles", b =>
-                {
-                    b.HasOne("costa_serena_grand_hotel_API.Models.Vendeg", "Vendeg")
-                        .WithMany()
-                        .HasForeignKey("VendegId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Vendeg");
-                });
-
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.RendelesTetel", b =>
-                {
-                    b.HasOne("costa_serena_grand_hotel_API.Models.Rendeles", "Rendeles")
-                        .WithMany("Tetelek")
-                        .HasForeignKey("RendelesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("costa_serena_grand_hotel_API.Models.Termek", "Termek")
-                        .WithMany()
-                        .HasForeignKey("TermekId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Rendeles");
-
-                    b.Navigation("Termek");
-                });
-
             modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Szoba", b =>
                 {
                     b.HasOne("costa_serena_grand_hotel_API.Models.SzobaKategoria", "SzobaKategoria")
@@ -640,11 +496,6 @@ namespace costa_serena_grand_hotel_API.Migrations
                         .HasForeignKey("IdentityUserId");
 
                     b.Navigation("IdentityUser");
-                });
-
-            modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Rendeles", b =>
-                {
-                    b.Navigation("Tetelek");
                 });
 
             modelBuilder.Entity("costa_serena_grand_hotel_API.Models.Szoba", b =>
