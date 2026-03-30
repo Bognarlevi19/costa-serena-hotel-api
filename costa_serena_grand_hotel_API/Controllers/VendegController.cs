@@ -20,6 +20,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Vendeg>>> GetVendegek()
         {
             return Ok(await _context.Vendegek
@@ -68,6 +69,7 @@ namespace costa_serena_grand_hotel_API.Controllers
 
             return Ok(vendeg);
         }
+
         [HttpPut("me")]
         public async Task<IActionResult> PutCurrentVendeg(Vendeg vendeg)
         {
@@ -98,12 +100,24 @@ namespace costa_serena_grand_hotel_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendeg>> GetVendeg(int id)
         {
-            var vendeg = await _context.Vendegek.FindAsync(id);
+            var identityUserId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                User.FindFirstValue("sub");
+
+            if (string.IsNullOrWhiteSpace(identityUserId))
+                return Unauthorized();
+
+            var vendeg = await _context.Vendegek.FirstOrDefaultAsync(v => v.Id == id);
 
             if (vendeg == null)
                 return NotFound();
 
-            return vendeg;
+            var isAdmin = User.IsInRole("Admin");
+
+            if (!isAdmin && vendeg.IdentityUserId != identityUserId)
+                return Forbid();
+
+            return Ok(vendeg);
         }
 
         [HttpPut("{id}")]
@@ -113,19 +127,20 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (id != vendeg.Id)
                 return BadRequest();
 
-            _context.Entry(vendeg).State = EntityState.Modified;
+            var meglevoVendeg = await _context.Vendegek.FirstOrDefaultAsync(v => v.Id == id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VendegExists(id))
-                    return NotFound();
-                else
-                    throw;
-            }
+            if (meglevoVendeg == null)
+                return NotFound();
+
+            meglevoVendeg.Nev = vendeg.Nev;
+            meglevoVendeg.SzemelyiIgazolvanySzam = vendeg.SzemelyiIgazolvanySzam;
+            meglevoVendeg.IranyitoSzam = vendeg.IranyitoSzam;
+            meglevoVendeg.Varos = vendeg.Varos;
+            meglevoVendeg.Utca = vendeg.Utca;
+            meglevoVendeg.Hazszam = vendeg.Hazszam;
+            meglevoVendeg.IdentityUserId = vendeg.IdentityUserId;
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -152,11 +167,6 @@ namespace costa_serena_grand_hotel_API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool VendegExists(int id)
-        {
-            return _context.Vendegek.Any(e => e.Id == id);
         }
     }
 }
