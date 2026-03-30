@@ -25,65 +25,45 @@ namespace costa_serena_grand_hotel_API.Data
 
             var kategoriak = new List<SzobaKategoria>
             {
-                new SzobaKategoria
+               new SzobaKategoria
                 {
-                    Nev = "Basic Comfort",
-                    Leiras = "Kényelmes, letisztult szoba alapfelszereltséggel, pihenésre tervezve.",
-                    Darab = 10,
-                    KepekJson = JsonSerializer.Serialize(new List<string>
-                    {
-                        "/kepek/Szobak/basic/basic1.png",
-                        "/kepek/Szobak/basic/basic2.png",
-                        "/kepek/Szobak/basic/basicfurdo.png"
-                    })
+                Nev = "Basic",
+                Leiras = "Kedvező árú, egyszerűen berendezett szobák rövidebb és hosszabb tartózkodásra.",
+                Darab = 10,
+                KepekJson = JsonSerializer.Serialize(new List<string>
+                {
+                    "/kepek/Szobak/Basicszoba.png"
+                })
                 },
                 new SzobaKategoria
                 {
-                    Nev = "Deluxe Family",
-                    Leiras = "Tágas családi szoba több férőhellyel, barátságos elrendezéssel.",
-                    Darab = 8,
-                    KepekJson = JsonSerializer.Serialize(new List<string>
-                    {
-                        "/kepek/Szobak/deluxe_family/deluxe_family1.png",
-                        "/kepek/Szobak/deluxe_family/deluxe_family2.png",
-                        "/kepek/Szobak/deluxe_family/deluxe_family_furdo.png"
-                    })
+                Nev = "Deluxe",
+                Leiras = "Tágasabb, elegánsabb szobák jobb felszereltséggel.",
+                Darab = 10,
+                KepekJson = JsonSerializer.Serialize(new List<string>
+                {
+
+                })
                 },
                 new SzobaKategoria
                 {
-                    Nev = "Luxury Ocean View",
-                    Leiras = "Prémium szoba nagy erkéllyel és lenyűgöző óceáni panorámával.",
-                    Darab = 6,
-                    KepekJson = JsonSerializer.Serialize(new List<string>
-                    {
-                        "/kepek/Szobak/ocean_view/ocean_view1.png",
-                        "/kepek/Szobak/ocean_view/ocean_view2.png",
-                        "/kepek/Szobak/ocean_view/ocean_view_furdo.png"
-                    })
+                Nev = "Luxus",
+                Leiras = "Prémium kialakítású szobák exkluzív hangulattal és magas szintű kényelemmel.",
+                Darab = 10,
+                KepekJson = JsonSerializer.Serialize(new List<string>
+                {
+
+                })
                 },
                 new SzobaKategoria
                 {
-                    Nev = "Luxury Serenity",
-                    Leiras = "Nyugodt hangulatú, kifinomult belsővel kialakított exkluzív szoba.",
-                    Darab = 5,
-                    KepekJson = JsonSerializer.Serialize(new List<string>
-                    {
-                        "/kepek/Szobak/serenity/serenity1.png",
-                        "/kepek/Szobak/serenity/serenity2.png",
-                        "/kepek/Szobak/serenity/serenity_furdo.png"
-                    })
-                },
-                new SzobaKategoria
+                Nev = "Lakosztály",
+                Leiras = "A legmagasabb kategória, különleges térérzettel és kiemelt felszereltséggel.",
+                Darab = 10,
+                KepekJson = JsonSerializer.Serialize(new List<string>
                 {
-                    Nev = "Luxury Signature",
-                    Leiras = "Egyedi megjelenésű, magas kategóriás luxusszoba különleges enteriőrrel.",
-                    Darab = 4,
-                    KepekJson = JsonSerializer.Serialize(new List<string>
-                    {
-                        "/kepek/Szobak/signature/signature1.png",
-                        "/kepek/Szobak/signature/signature2.png",
-                        "/kepek/Szobak/signature/signature_furdo.png"
-                    })
+
+                })
                 }
             };
 

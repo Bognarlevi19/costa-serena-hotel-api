@@ -25,11 +25,12 @@ namespace costa_serena_grand_hotel_API.Controllers
             public DateTime Mettol { get; set; }
             public DateTime Meddig { get; set; }
         }
+
         public class SajatFoglalasDto
         {
             public int Id { get; set; }
             public int SzobaId { get; set; }
-            public string SzobaSzam { get; set; }
+            public string SzobaSzam { get; set; } = string.Empty;
             public string SzobaNev { get; set; } = string.Empty;
             public string? KategoriaNev { get; set; }
             public DateTime Mettol { get; set; }
@@ -42,6 +43,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         {
             return await _context.Foglalasok.ToListAsync();
         }
+
         [HttpGet("sajat")]
         public async Task<ActionResult<IEnumerable<SajatFoglalasDto>>> GetSajatFoglalasok()
         {
@@ -118,6 +120,7 @@ namespace costa_serena_grand_hotel_API.Controllers
             {
                 if (!FoglalasExists(id))
                     return NotFound();
+
                 throw;
             }
 
@@ -125,7 +128,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Foglalas>> PostFoglalas(FoglalasCreateRequest request)
+        public async Task<ActionResult> PostFoglalas(FoglalasCreateRequest request)
         {
             var identityUserId =
                 User.FindFirstValue(ClaimTypes.NameIdentifier) ??
@@ -140,8 +143,8 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (vendeg == null)
                 return BadRequest("A bejelentkezett felhasználóhoz nem tartozik vendég rekord.");
 
-            var szobaLetezik = await _context.Szobak.AnyAsync(s => s.Id == request.SzobaId);
-            if (!szobaLetezik)
+            var szoba = await _context.Szobak.FirstOrDefaultAsync(s => s.Id == request.SzobaId);
+            if (szoba == null)
                 return BadRequest("A kiválasztott szoba nem létezik.");
 
             if (request.Mettol.Date < DateTime.Today)
@@ -158,6 +161,9 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (utkozik)
                 return BadRequest("Erre az időszakra a szoba már foglalt.");
 
+            var ejszakakSzama = (request.Meddig.Date - request.Mettol.Date).Days;
+            var fizetendoOsszeg = ejszakakSzama * szoba.Ar;
+
             var foglalas = new Foglalas
             {
                 SzobaId = request.SzobaId,
@@ -170,14 +176,11 @@ namespace costa_serena_grand_hotel_API.Controllers
             _context.Foglalasok.Add(foglalas);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetFoglalas), new { id = foglalas.Id }, new
+            return Ok(new
             {
-                foglalas.Id,
-                foglalas.SzobaId,
-                foglalas.VendegId,
-                foglalas.Mettol,
-                foglalas.Meddig,
-                foglalas.Fizetett
+                Id = foglalas.Id,
+                FizetendoOsszeg = fizetendoOsszeg,
+                Uzenet = "Köszönjük a foglalását! A fizetés személyesen a recepción fog történni."
             });
         }
 
