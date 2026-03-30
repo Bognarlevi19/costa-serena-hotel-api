@@ -100,6 +100,7 @@ namespace costa_serena_grand_hotel_API
             app.MapRazorPages();
 
             await IdentitySeeder.SeedAsync(app.Services, app.Configuration);
+            await HotelDataSeeder.SeedAsync(app.Services);
             app.Run();
         }
     }
