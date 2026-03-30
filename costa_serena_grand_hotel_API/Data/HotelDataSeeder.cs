@@ -25,45 +25,42 @@ namespace costa_serena_grand_hotel_API.Data
 
             var kategoriak = new List<SzobaKategoria>
             {
-               new SzobaKategoria
+                new SzobaKategoria
                 {
-                Nev = "Basic",
-                Leiras = "Kedvező árú, egyszerűen berendezett szobák rövidebb és hosszabb tartózkodásra.",
-                Darab = 10,
-                KepekJson = JsonSerializer.Serialize(new List<string>
-                {
-                    "/kepek/Szobak/Basicszoba.png"
-                })
+                    Nev = "Basic",
+                    Leiras = "Kedvező árú, egyszerűen berendezett szobák rövidebb és hosszabb tartózkodásra.",
+                    Darab = 10,
+                    KepekJson = JsonSerializer.Serialize(new List<string>
+                    {
+                        "/kepek/Szobak/Basicszoba.png"
+                    })
                 },
                 new SzobaKategoria
                 {
-                Nev = "Deluxe",
-                Leiras = "Tágasabb, elegánsabb szobák jobb felszereltséggel.",
-                Darab = 10,
-                KepekJson = JsonSerializer.Serialize(new List<string>
-                {
-
-                })
+                    Nev = "Deluxe",
+                    Leiras = "Tágasabb, elegánsabb szobák jobb felszereltséggel.",
+                    Darab = 10,
+                    KepekJson = JsonSerializer.Serialize(new List<string>
+                    {
+                    })
                 },
                 new SzobaKategoria
                 {
-                Nev = "Luxus",
-                Leiras = "Prémium kialakítású szobák exkluzív hangulattal és magas szintű kényelemmel.",
-                Darab = 10,
-                KepekJson = JsonSerializer.Serialize(new List<string>
-                {
-
-                })
+                    Nev = "Luxus",
+                    Leiras = "Prémium kialakítású szobák exkluzív hangulattal és magas szintű kényelemmel.",
+                    Darab = 10,
+                    KepekJson = JsonSerializer.Serialize(new List<string>
+                    {
+                    })
                 },
                 new SzobaKategoria
                 {
-                Nev = "Lakosztály",
-                Leiras = "A legmagasabb kategória, különleges térérzettel és kiemelt felszereltséggel.",
-                Darab = 10,
-                KepekJson = JsonSerializer.Serialize(new List<string>
-                {
-
-                })
+                    Nev = "Lakosztály",
+                    Leiras = "A legmagasabb kategória, különleges térérzettel és kiemelt felszereltséggel.",
+                    Darab = 10,
+                    KepekJson = JsonSerializer.Serialize(new List<string>
+                    {
+                    })
                 }
             };
 
@@ -87,11 +84,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 1,
                     Alapterulet = 24,
                     Ar = 24990,
-                    Nev = "Basic Comfort 101",
+                    Nev = "Basic 101",
                     RovidLeiras = "Kétágyas, kényelmes alap szoba.",
                     Leiras = "Letisztult berendezésű basic szoba két vendég részére, modern fürdőszobával.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Basic Comfort"],
+                    SzobaKategoriaId = kategoriak["Basic"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/basic/basic1.png",
@@ -105,11 +102,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 1,
                     Alapterulet = 26,
                     Ar = 25990,
-                    Nev = "Basic Comfort 102",
+                    Nev = "Basic 102",
                     RovidLeiras = "Világos basic szoba két főnek.",
                     Leiras = "Praktikus kialakítású, barátságos hangulatú szoba erkéllyel.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Basic Comfort"],
+                    SzobaKategoriaId = kategoriak["Basic"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/basic/basic1.png",
@@ -123,11 +120,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 2,
                     Alapterulet = 34,
                     Ar = 38990,
-                    Nev = "Deluxe Family 201",
+                    Nev = "Deluxe 201",
                     RovidLeiras = "Családi szoba több férőhellyel.",
-                    Leiras = "Tágas deluxe family szoba családoknak, kényelmes fekvőhelyekkel.",
+                    Leiras = "Tágas deluxe szoba családoknak, kényelmes fekvőhelyekkel.",
                     Ferohely = 4,
-                    SzobaKategoriaId = kategoriak["Deluxe Family"],
+                    SzobaKategoriaId = kategoriak["Deluxe"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/deluxe_family/deluxe_family1.png",
@@ -141,11 +138,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 2,
                     Alapterulet = 36,
                     Ar = 39990,
-                    Nev = "Deluxe Family 202",
-                    RovidLeiras = "Tágas családi lakosztály.",
+                    Nev = "Deluxe 202",
+                    RovidLeiras = "Tágas családi deluxe szoba.",
                     Leiras = "Családbarát kialakítású deluxe szoba nagyobb alapterülettel.",
                     Ferohely = 4,
-                    SzobaKategoriaId = kategoriak["Deluxe Family"],
+                    SzobaKategoriaId = kategoriak["Deluxe"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/deluxe_family/deluxe_family1.png",
@@ -159,11 +156,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 3,
                     Alapterulet = 42,
                     Ar = 54990,
-                    Nev = "Luxury Ocean View 301",
+                    Nev = "Luxus 301",
                     RovidLeiras = "Panorámás luxusszoba erkéllyel.",
-                    Leiras = "Exkluzív szoba óceáni panorámával, nagy erkéllyel és prémium berendezéssel.",
+                    Leiras = "Exkluzív szoba nagy erkéllyel és prémium berendezéssel.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Ocean View"],
+                    SzobaKategoriaId = kategoriak["Luxus"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/ocean_view/ocean_view1.png",
@@ -177,11 +174,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 3,
                     Alapterulet = 44,
                     Ar = 56990,
-                    Nev = "Luxury Ocean View 302",
-                    RovidLeiras = "Magas kategóriás ocean view szoba.",
-                    Leiras = "Elegáns, világos luxusszoba páratlan kilátással és nyugodt hangulattal.",
+                    Nev = "Luxus 302",
+                    RovidLeiras = "Magas kategóriás luxusszoba.",
+                    Leiras = "Elegáns, világos luxusszoba nyugodt hangulattal.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Ocean View"],
+                    SzobaKategoriaId = kategoriak["Luxus"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/ocean_view/ocean_view1.png",
@@ -195,11 +192,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 4,
                     Alapterulet = 40,
                     Ar = 59990,
-                    Nev = "Luxury Serenity 401",
+                    Nev = "Luxus 401",
                     RovidLeiras = "Nyugodt, exkluzív luxusszoba.",
                     Leiras = "Kifinomult részletekkel kialakított szoba a teljes kikapcsolódásért.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Serenity"],
+                    SzobaKategoriaId = kategoriak["Luxus"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/serenity/serenity1.png",
@@ -213,11 +210,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 4,
                     Alapterulet = 41,
                     Ar = 61990,
-                    Nev = "Luxury Serenity 402",
+                    Nev = "Luxus 402",
                     RovidLeiras = "Prémium nyugalmat árasztó szoba.",
                     Leiras = "Elegáns és harmonikus enteriőr, visszafogott luxusérzettel.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Serenity"],
+                    SzobaKategoriaId = kategoriak["Luxus"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/serenity/serenity1.png",
@@ -231,11 +228,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 5,
                     Alapterulet = 48,
                     Ar = 69990,
-                    Nev = "Luxury Signature 501",
-                    RovidLeiras = "Különleges kialakítású signature szoba.",
-                    Leiras = "Egyedi belsőépítészeti megoldásokkal berendezett, reprezentatív luxusszoba.",
+                    Nev = "Lakosztály 501",
+                    RovidLeiras = "Különleges kialakítású lakosztály.",
+                    Leiras = "Egyedi belsőépítészeti megoldásokkal berendezett, reprezentatív felső kategóriás lakosztály.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Signature"],
+                    SzobaKategoriaId = kategoriak["Lakosztály"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/signature/signature1.png",
@@ -249,11 +246,11 @@ namespace costa_serena_grand_hotel_API.Data
                     Emelet = 5,
                     Alapterulet = 50,
                     Ar = 72990,
-                    Nev = "Luxury Signature 502",
+                    Nev = "Lakosztály 502",
                     RovidLeiras = "Látványos, felső kategóriás lakosztály.",
-                    Leiras = "Tágas signature szoba kiemelt dizájnnal és exkluzív részletekkel.",
+                    Leiras = "Tágas lakosztály kiemelt dizájnnal és exkluzív részletekkel.",
                     Ferohely = 2,
-                    SzobaKategoriaId = kategoriak["Luxury Signature"],
+                    SzobaKategoriaId = kategoriak["Lakosztály"],
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/signature/signature1.png",
