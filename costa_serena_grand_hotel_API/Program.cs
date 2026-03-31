@@ -1,4 +1,6 @@
 using costa_serena_grand_hotel_API.Data;
+using costa_serena_grand_hotel_API.Middleware;
+using costa_serena_grand_hotel_API.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -80,6 +82,10 @@ namespace costa_serena_grand_hotel_API
             });
             builder.Services.AddAuthorization();
 
+            //Admin panelhez szükséges szolgáltatások
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IAuditLogger, AuditLogger>();
+
 
             builder.Services.AddRazorPages(); // Identity UI-hoz kell
             var app = builder.Build();
@@ -92,9 +98,13 @@ namespace costa_serena_grand_hotel_API
             }
 
             app.UseHttpsRedirection();
+
+
+
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.MapControllers();
             app.MapRazorPages();

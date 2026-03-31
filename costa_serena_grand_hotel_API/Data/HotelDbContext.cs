@@ -20,6 +20,7 @@ namespace costa_serena_grand_hotel_API.Data
         public DbSet<Termek> Termekek { get; set; }
         public DbSet<Rendeles> Rendelesek { get; set; }
         public DbSet<RendelesTetel> RendelesTetelek { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +49,10 @@ namespace costa_serena_grand_hotel_API.Data
                 .WithMany()
                 .HasForeignKey(r => r.VendegId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Log>()
+                .Property(x => x.Timestamp)
+                .HasColumnType("datetime(6)");
         }
     }
 }
