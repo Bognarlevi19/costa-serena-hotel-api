@@ -29,6 +29,17 @@ namespace costa_serena_grand_hotel_API.Controllers
             return Ok(termekek);
         }
 
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<Termek>>> GetAllAdmin()
+        {
+            var termekek = await _context.Termekek
+                .OrderBy(t => t.Id)
+                .ToListAsync();
+
+            return Ok(termekek);
+        }
+
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<Termek>> GetById(int id)
@@ -36,7 +47,7 @@ namespace costa_serena_grand_hotel_API.Controllers
             var termek = await _context.Termekek.FindAsync(id);
 
             if (termek == null)
-                return NotFound();
+                return NotFound("A termék nem található.");
 
             return Ok(termek);
         }
@@ -45,6 +56,9 @@ namespace costa_serena_grand_hotel_API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Termek>> Create(Termek termek)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             _context.Termekek.Add(termek);
             await _context.SaveChangesAsync();
 
@@ -56,11 +70,20 @@ namespace costa_serena_grand_hotel_API.Controllers
         public async Task<IActionResult> Update(int id, Termek termek)
         {
             if (id != termek.Id)
-                return BadRequest();
+                return BadRequest("Azonosító eltérés.");
 
-            _context.Entry(termek).State = EntityState.Modified;
+            var meglevo = await _context.Termekek.FindAsync(id);
+            if (meglevo == null)
+                return NotFound("A termék nem található.");
+
+            meglevo.Nev = termek.Nev;
+            meglevo.Leiras = termek.Leiras;
+            meglevo.Ar = termek.Ar;
+            meglevo.KepUrl = termek.KepUrl;
+            meglevo.Kategoria = termek.Kategoria;
+            meglevo.Aktiv = termek.Aktiv;
+
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -71,12 +94,18 @@ namespace costa_serena_grand_hotel_API.Controllers
             var termek = await _context.Termekek.FindAsync(id);
 
             if (termek == null)
-                return NotFound();
+                return NotFound("A termék nem található.");
 
-            _context.Termekek.Remove(termek);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            try
+            {
+                _context.Termekek.Remove(termek);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest("A termék nem törölhető, mert kapcsolódik meglévő rendeléshez.");
+            }
         }
     }
 }

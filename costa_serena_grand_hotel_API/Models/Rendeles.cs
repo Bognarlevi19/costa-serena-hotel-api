@@ -41,6 +41,8 @@ namespace costa_serena_grand_hotel_API.Models
 
         public bool Fizetett { get; set; }
 
+        public bool Elkuldve { get; set; } = false;
+
         public ICollection<RendelesTetel> Tetelek { get; set; } = new List<RendelesTetel>();
     }
 }
