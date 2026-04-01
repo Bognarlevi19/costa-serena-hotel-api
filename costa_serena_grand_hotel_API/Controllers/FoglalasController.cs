@@ -46,6 +46,11 @@ namespace costa_serena_grand_hotel_API.Controllers
             public DateTime Meddig { get; set; }
             public bool Fizetett { get; set; }
         }
+        public class FoglaltIdoszakDto
+        {
+            public DateTime Mettol { get; set; }
+            public DateTime Meddig { get; set; }
+        }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -109,6 +114,27 @@ namespace costa_serena_grand_hotel_API.Controllers
             return Ok(foglalasok);
         }
 
+        [HttpGet("szoba/{szobaId:int}/foglalt-idoszakok")]
+        public async Task<ActionResult<IEnumerable<FoglaltIdoszakDto>>> GetFoglaltIdoszakok(int szobaId)
+        {
+            var szobaLetezik = await _context.Szobak.AnyAsync(s => s.Id == szobaId);
+            if (!szobaLetezik)
+                return NotFound("A kiválasztott szoba nem található.");
+
+            var ma = DateTime.Today;
+
+            var idoszakok = await _context.Foglalasok
+                .Where(f => f.SzobaId == szobaId && f.Meddig > ma)
+                .OrderBy(f => f.Mettol)
+                .Select(f => new FoglaltIdoszakDto
+                {
+                    Mettol = f.Mettol,
+                    Meddig = f.Meddig
+                })
+                .ToListAsync();
+
+            return Ok(idoszakok);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetFoglalas(int id)
         {

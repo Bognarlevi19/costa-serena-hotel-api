@@ -19,8 +19,6 @@ namespace costa_serena_grand_hotel_API.Models
         [Column(TypeName = "json")]
         public string? KepekJson { get; set; }
 
-        public int Darab { get; set; } = 10;
-
         public ICollection<Szoba> Szobak { get; set; } = new List<Szoba>();
     }
 }

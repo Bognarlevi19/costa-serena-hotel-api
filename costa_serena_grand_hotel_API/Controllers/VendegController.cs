@@ -2,6 +2,7 @@
 using costa_serena_grand_hotel_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -13,10 +14,12 @@ namespace costa_serena_grand_hotel_API.Controllers
     public class VendegController : ControllerBase
     {
         private readonly HotelDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public VendegController(HotelDbContext context)
+        public VendegController(HotelDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -138,7 +141,11 @@ namespace costa_serena_grand_hotel_API.Controllers
             meglevoVendeg.Varos = vendeg.Varos;
             meglevoVendeg.Utca = vendeg.Utca;
             meglevoVendeg.Hazszam = vendeg.Hazszam;
-            meglevoVendeg.IdentityUserId = vendeg.IdentityUserId;
+
+            if (!string.IsNullOrWhiteSpace(vendeg.IdentityUserId))
+            {
+                meglevoVendeg.IdentityUserId = vendeg.IdentityUserId;
+            }
 
             await _context.SaveChangesAsync();
 
@@ -159,14 +166,51 @@ namespace costa_serena_grand_hotel_API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteVendeg(int id)
         {
-            var vendeg = await _context.Vendegek.FindAsync(id);
+            var vendeg = await _context.Vendegek.FirstOrDefaultAsync(v => v.Id == id);
             if (vendeg == null)
                 return NotFound();
 
-            _context.Vendegek.Remove(vendeg);
-            await _context.SaveChangesAsync();
+            var vanFoglalasa = await _context.Foglalasok.AnyAsync(f => f.VendegId == id);
+            if (vanFoglalasa)
+                return BadRequest("A vendég nem törölhető, mert tartozik hozzá foglalás.");
 
-            return NoContent();
+            var vanRendelese = await _context.Rendelesek.AnyAsync(r => r.VendegId == id);
+            if (vanRendelese)
+                return BadRequest("A vendég nem törölhető, mert tartozik hozzá rendelés.");
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                IdentityUser? identityUser = null;
+
+                if (!string.IsNullOrWhiteSpace(vendeg.IdentityUserId))
+                {
+                    identityUser = await _userManager.FindByIdAsync(vendeg.IdentityUserId);
+                }
+
+                _context.Vendegek.Remove(vendeg);
+                await _context.SaveChangesAsync();
+
+                if (identityUser != null)
+                {
+                    var deleteUserResult = await _userManager.DeleteAsync(identityUser);
+                    if (!deleteUserResult.Succeeded)
+                    {
+                        var hibak = string.Join(" | ", deleteUserResult.Errors.Select(e => e.Description));
+                        await transaction.RollbackAsync();
+                        return BadRequest($"A vendég törlése közben a felhasználói fiók törlése nem sikerült: {hibak}");
+                    }
+                }
+
+                await transaction.CommitAsync();
+                return NoContent();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

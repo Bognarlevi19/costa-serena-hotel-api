@@ -28,8 +28,7 @@ namespace costa_serena_grand_hotel_API.Controllers
                     k.Id,
                     k.Nev,
                     k.Leiras,
-                    k.KepekJson,
-                    k.Darab
+                    k.KepekJson
                 })
                 .ToListAsync();
 
@@ -47,8 +46,7 @@ namespace costa_serena_grand_hotel_API.Controllers
                     k.Id,
                     k.Nev,
                     k.Leiras,
-                    k.KepekJson,
-                    k.Darab
+                    k.KepekJson
                 })
                 .FirstOrDefaultAsync();
 
@@ -82,7 +80,6 @@ namespace costa_serena_grand_hotel_API.Controllers
             meglevo.Nev = kategoria.Nev;
             meglevo.Leiras = kategoria.Leiras;
             meglevo.KepekJson = kategoria.KepekJson;
-            meglevo.Darab = kategoria.Darab;
 
             await _context.SaveChangesAsync();
             return NoContent();

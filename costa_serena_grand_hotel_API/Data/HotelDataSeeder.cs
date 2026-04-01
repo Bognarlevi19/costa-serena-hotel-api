@@ -29,7 +29,6 @@ namespace costa_serena_grand_hotel_API.Data
                 {
                     Nev = "Basic",
                     Leiras = "Kedvező árú, egyszerűen berendezett szobák rövidebb és hosszabb tartózkodásra.",
-                    Darab = 10,
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/Basicszoba.png"
@@ -39,7 +38,6 @@ namespace costa_serena_grand_hotel_API.Data
                 {
                     Nev = "Deluxe",
                     Leiras = "Tágasabb, elegánsabb szobák jobb felszereltséggel.",
-                    Darab = 10,
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                     })
@@ -48,7 +46,6 @@ namespace costa_serena_grand_hotel_API.Data
                 {
                     Nev = "Luxus",
                     Leiras = "Prémium kialakítású szobák exkluzív hangulattal és magas szintű kényelemmel.",
-                    Darab = 10,
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                     })
@@ -57,7 +54,6 @@ namespace costa_serena_grand_hotel_API.Data
                 {
                     Nev = "Lakosztály",
                     Leiras = "A legmagasabb kategória, különleges térérzettel és kiemelt felszereltséggel.",
-                    Darab = 10,
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                     })
