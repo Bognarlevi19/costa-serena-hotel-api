@@ -274,7 +274,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 7990,
                     KepUrl = "/kepek/Shop/torolkozo.png",
                     Kategoria = "Textil",
-                    Aktiv = true
+                    Darabszam = 20
                 },
                 new Termek
                 {
@@ -283,7 +283,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 12990,
                     KepUrl = "/kepek/Shop/furdokopeny.png",
                     Kategoria = "Textil",
-                    Aktiv = true
+                    Darabszam = 20
                 },
                 new Termek
                 {
@@ -292,7 +292,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 3990,
                     KepUrl = "/kepek/Shop/bogre.png",
                     Kategoria = "Ajándék",
-                    Aktiv = true
+                    Darabszam = 20
                 },
                 new Termek
                 {
@@ -301,7 +301,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 1990,
                     KepUrl = "/kepek/Shop/kulcstarto.png",
                     Kategoria = "Ajándék",
-                    Aktiv = true
+                    Darabszam = 20
                 },
                 new Termek
                 {
@@ -310,7 +310,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 6990,
                     KepUrl = "/kepek/Shop/polo.png",
                     Kategoria = "Ruházat",
-                    Aktiv = true
+                    Darabszam = 20
                 },
                 new Termek
                 {
@@ -319,7 +319,7 @@ namespace costa_serena_grand_hotel_API.Data
                     Ar = 4990,
                     KepUrl = "/kepek/Shop/sapka.png",
                     Kategoria = "Ruházat",
-                    Aktiv = true
+                    Darabszam = 20
                 }
             };
 

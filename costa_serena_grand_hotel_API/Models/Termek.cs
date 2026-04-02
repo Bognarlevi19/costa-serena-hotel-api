@@ -25,6 +25,8 @@ namespace costa_serena_grand_hotel_API.Models
         [StringLength(80)]
         public string? Kategoria { get; set; }
 
-        public bool Aktiv { get; set; } = true;
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "A darabszám nem lehet negatív.")]
+        public int Darabszam { get; set; }
     }
 }

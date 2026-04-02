@@ -22,7 +22,7 @@ namespace costa_serena_grand_hotel_API.Controllers
         public async Task<ActionResult<IEnumerable<Termek>>> GetAll()
         {
             var termekek = await _context.Termekek
-                .Where(t => t.Aktiv)
+                .Where(t => t.Darabszam > 0)
                 .OrderBy(t => t.Nev)
                 .ToListAsync();
 
@@ -59,6 +59,9 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if (termek.Darabszam < 0)
+                return BadRequest("A darabszám nem lehet negatív.");
+
             _context.Termekek.Add(termek);
             await _context.SaveChangesAsync();
 
@@ -72,6 +75,9 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (id != termek.Id)
                 return BadRequest("Azonosító eltérés.");
 
+            if (termek.Darabszam < 0)
+                return BadRequest("A darabszám nem lehet negatív.");
+
             var meglevo = await _context.Termekek.FindAsync(id);
             if (meglevo == null)
                 return NotFound("A termék nem található.");
@@ -81,7 +87,7 @@ namespace costa_serena_grand_hotel_API.Controllers
             meglevo.Ar = termek.Ar;
             meglevo.KepUrl = termek.KepUrl;
             meglevo.Kategoria = termek.Kategoria;
-            meglevo.Aktiv = termek.Aktiv;
+            meglevo.Darabszam = termek.Darabszam;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -96,15 +102,25 @@ namespace costa_serena_grand_hotel_API.Controllers
             if (termek == null)
                 return NotFound("A termék nem található.");
 
+            var hasznalvaVan = await _context.RendelesTetelek
+                .AnyAsync(x => x.TermekId == id);
+
+            if (hasznalvaVan)
+                return BadRequest("A termék nem törölhető, mert kapcsolódik meglévő rendeléshez.");
+
             try
             {
                 _context.Termekek.Remove(termek);
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                return BadRequest("A termék nem törölhető, mert kapcsolódik meglévő rendeléshez.");
+                return BadRequest(ex.InnerException?.Message ?? ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

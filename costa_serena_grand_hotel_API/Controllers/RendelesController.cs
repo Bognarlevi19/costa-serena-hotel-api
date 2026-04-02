@@ -153,11 +153,11 @@ namespace costa_serena_grand_hotel_API.Controllers
             var termekIds = req.Tetelek.Select(t => t.TermekId).Distinct().ToList();
 
             var termekek = await _context.Termekek
-                .Where(t => termekIds.Contains(t.Id) && t.Aktiv)
+                .Where(t => termekIds.Contains(t.Id))
                 .ToListAsync();
 
             if (termekek.Count != termekIds.Count)
-                return BadRequest("Az egyik termék nem található vagy nem aktív.");
+                return BadRequest("Az egyik termék nem található.");
 
             var rendeles = new Rendeles
             {
@@ -177,6 +177,11 @@ namespace costa_serena_grand_hotel_API.Controllers
             {
                 var termek = termekek.First(x => x.Id == tetel.TermekId);
                 var mennyiseg = tetel.Mennyiseg <= 0 ? 1 : tetel.Mennyiseg;
+
+                if (termek.Darabszam < mennyiseg)
+                    return BadRequest($"Nincs elég készlet a következő termékből: {termek.Nev}. Elérhető darabszám: {termek.Darabszam}.");
+
+                termek.Darabszam -= mennyiseg;
 
                 rendeles.Tetelek.Add(new RendelesTetel
                 {
