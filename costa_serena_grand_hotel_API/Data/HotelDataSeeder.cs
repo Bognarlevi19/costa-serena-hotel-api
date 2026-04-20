@@ -10,14 +10,43 @@ namespace costa_serena_grand_hotel_API.Data
         {
             using var scope = services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
+            var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             await context.Database.MigrateAsync();
 
             await SeedSzobaKategoriakAsync(context);
             await SeedSzobakAsync(context);
             await SeedTermekekAsync(context);
+            await SeedAdminVendegAsync(context, configuration);
         }
+        private static async Task SeedAdminVendegAsync(HotelDbContext context, IConfiguration configuration)
+        {
+            var adminEmail = configuration["SeedAdmin:Email"];
+            if (string.IsNullOrWhiteSpace(adminEmail))
+                return;
 
+            var adminUser = await context.Users.FirstOrDefaultAsync(u => u.Email == adminEmail);
+            if (adminUser == null)
+                return;
+
+            var letezikMar = await context.Vendegek.AnyAsync(v => v.IdentityUserId == adminUser.Id);
+            if (letezikMar)
+                return;
+
+            var adminVendeg = new Vendeg
+            {
+                IdentityUserId = adminUser.Id,
+                Nev = "Admin Felhasznalo",
+                SzemelyiIgazolvanySzam = "ADM123456",
+                IranyitoSzam = 1051,
+                Varos = "Budapest",
+                Utca = "Fo utca",
+                Hazszam = "1"
+            };
+
+            context.Vendegek.Add(adminVendeg);
+            await context.SaveChangesAsync();
+        }
         private static async Task SeedSzobaKategoriakAsync(HotelDbContext context)
         {
             if (await context.SzobaKategoriak.AnyAsync())
