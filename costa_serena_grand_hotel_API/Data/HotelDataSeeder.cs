@@ -323,7 +323,7 @@ namespace costa_serena_grand_hotel_API.Data
                     KepekJson = JsonSerializer.Serialize(new List<string>
                     {
                         "/kepek/Szobak/Royal.png",
-                        "/kepek/Szobak/Royal-fürdo.png",
+                        "/kepek/Szobak/Royalfurdo.png",
                         "/kepek/Szobak/Royal-terasz.png",
                         "/kepek/Szobak/Royal-plafon.png"
                     })
